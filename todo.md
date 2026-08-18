@@ -1,0 +1,29 @@
+# Project TODO
+
+- [x] Define the application information architecture, entity vocabulary, role-permission matrix, and refined visual direction; document it in `docs/architecture.md`.
+- [x] Extend the user role model to support administrator, manager, and staff roles with server-enforced authorization helpers.
+- [x] Create validated database tables and migrations for suppliers, products, configurable inventory settings, stock movements, sales transactions, and sale line items.
+- [x] Build protected tRPC procedures for user roles, supplier CRUD, product CRUD, configurable low-stock settings, stock movement tracking, sales transactions, dashboard summaries, and reporting.
+- [x] Add server-side Zod validation, role checks, transactional quantity adjustments, and paginated/filterable/sortable query support across all entity procedures.
+- [x] Build the authenticated application shell with role-aware navigation and route-level access restrictions.
+- [x] Create a polished responsive dashboard with KPI cards, low-stock notifications, recent transactions, and clear empty/loading/error states.
+- [x] Create the product management view with create, edit, delete, supplier association, configurable low-stock highlighting, and simultaneous search, filtering, sorting, and pagination.
+- [x] Create the supplier management view with contact details, associated products, and simultaneous search, filtering, sorting, and pagination.
+- [x] Create the stock movement view with inbound/outbound records, timestamps, reasons, quantity changes, and simultaneous search, filtering, sorting, and pagination.
+- [x] Create the sales transaction workflow with validated product selection, available-stock protection, staff attribution, totals, and a searchable/sortable/filterable/paginated sales ledger.
+- [x] Create Recharts reporting views for sales over time, top-selling products, and stock-level trends.
+- [x] Add Vitest coverage for authorization, validation, low-stock calculations, pagination/filtering/sorting, inventory adjustments, and sales transaction safeguards.
+- [x] Run type checks and tests, verify desktop and mobile UI flows, refine visual details, and save the completed project checkpoint.
+- [x] Add explicit dashboard error-state feedback for failed operational summary queries.
+- [x] Add supplier relationship filtering and display the associated product names in the supplier directory.
+- [x] Verify the dashboard’s failed-summary recovery UI and retry behavior with focused coverage.
+- [x] Verify supplier relationship filtering and associated product-name rendering with focused coverage.
+- [x] Correct supplier pagination totals so suppliers with multiple associated products are counted once.
+- [x] Add focused tests for low-stock calculations, table pagination/filtering/sorting, inventory adjustment success and failure paths, and sales safeguards.
+- [x] Add focused UI-level coverage for dashboard error recovery and supplier product-name relationship display.
+- [x] Save the completed project checkpoint after final validation.
+- [x] Add focused procedure coverage for simultaneous entity-table search, filtering, sorting, and pagination behavior.
+- [x] Add focused success-path coverage for live stock and sales procedures, including persisted quantity changes and insufficient-inventory safeguards.
+- [x] Add result-level concurrent search, filtering, sorting, and pagination coverage for product, supplier, stock, and sales list procedures.
+- [x] Add deterministic query-result differentiation tests proving filters, sort direction, and pagination change returned rows across all operational lists.
+- [x] Add deterministic alternate-page and alternate-sort result fixtures for supplier, stock, and sales list procedures.
