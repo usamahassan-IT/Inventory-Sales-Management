@@ -16,8 +16,8 @@ export function RouteGuard({
 
   if (loading) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-[#f7f8f5]">
-        <Loader2 className="h-5 w-5 animate-spin text-[#4b7f67]" />
+      <div className="flex min-h-screen items-center justify-center bg-background">
+        <Loader2 className="h-6 w-6 animate-spin text-primary" />
       </div>
     );
   }

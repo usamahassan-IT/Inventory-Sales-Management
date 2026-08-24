@@ -2,56 +2,243 @@ import { Button } from "@/components/ui/button";
 import { ChevronLeft, ChevronRight, Inbox } from "lucide-react";
 import type { ReactNode } from "react";
 
-export function PageHeader({ eyebrow, title, description, actions }: { eyebrow?: string; title: string; description: string; actions?: ReactNode }) {
+export function PageHeader({
+  eyebrow,
+  title,
+  description,
+  actions,
+}: {
+  eyebrow?: string;
+  title: string;
+  description: string;
+  actions?: ReactNode;
+}) {
   return (
-    <div className="flex flex-col gap-5 border-b border-[#e6e8e3] pb-7 sm:flex-row sm:items-end sm:justify-between">
+    <div className="flex flex-col gap-5 border-b border-border/80 pb-7 sm:flex-row sm:items-end sm:justify-between dark:border-white/[0.08]">
       <div className="max-w-2xl">
-        {eyebrow ? <p className="mb-2 text-[11px] font-bold uppercase tracking-[0.18em] text-[#4b7f67]">{eyebrow}</p> : null}
-        <h1 className="font-display text-3xl font-semibold tracking-[-0.035em] text-[#17221f] sm:text-[2.15rem]">{title}</h1>
-        <p className="mt-2 text-sm leading-6 text-[#6b756f]">{description}</p>
+        {eyebrow ? (
+          <div className="mb-2 inline-flex items-center gap-1.5 rounded-full border border-indigo-500/20 bg-indigo-500/10 px-3 py-0.5 text-[11px] font-bold uppercase tracking-wider text-indigo-600 dark:border-indigo-400/20 dark:bg-indigo-400/10 dark:text-indigo-400">
+            <span className="h-1.5 w-1.5 rounded-full bg-indigo-500" />
+            <span>{eyebrow}</span>
+          </div>
+        ) : null}
+        <h1 className="font-display text-2.5xl sm:text-3xl font-black tracking-tight text-foreground">
+          {title}
+        </h1>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          {description}
+        </p>
       </div>
-      {actions ? <div className="flex shrink-0 flex-wrap gap-2">{actions}</div> : null}
+      {actions ? <div className="flex shrink-0 flex-wrap gap-2.5">{actions}</div> : null}
     </div>
   );
 }
 
-export function MetricCard({ label, value, detail, accent = "emerald", icon }: { label: string; value: string; detail: string; accent?: "emerald" | "amber" | "ink" | "rose"; icon: ReactNode }) {
-  const colors = {
-    emerald: "bg-[#e5f3ea] text-[#1c6b4a]",
-    amber: "bg-[#fff1d6] text-[#a05c12]",
-    ink: "bg-[#e8edeb] text-[#28423a]",
-    rose: "bg-[#fde8e6] text-[#a63e35]",
+export function MetricCard({
+  title,
+  label,
+  value,
+  note,
+  detail,
+  icon,
+  tone = "indigo",
+  accent,
+}: {
+  title?: string;
+  label?: string;
+  value: string | number;
+  note?: string;
+  detail?: string;
+  icon?: ReactNode;
+  tone?: "indigo" | "blue" | "amber" | "rose" | "neutral" | "emerald" | "mint" | "cyan" | "ink";
+  accent?: string;
+}) {
+  const effectiveTitle = title || label || "";
+  const effectiveNote = note || detail;
+
+  const toneMap: Record<string, { bg: string; text: string; border: string }> = {
+    indigo: {
+      bg: "bg-indigo-500/10 dark:bg-indigo-400/15",
+      text: "text-indigo-600 dark:text-indigo-400",
+      border: "border-indigo-500/20 dark:border-indigo-400/20",
+    },
+    blue: {
+      bg: "bg-blue-500/10 dark:bg-blue-400/15",
+      text: "text-blue-600 dark:text-blue-400",
+      border: "border-blue-500/20 dark:border-blue-400/20",
+    },
+    cyan: {
+      bg: "bg-blue-500/10 dark:bg-blue-400/15",
+      text: "text-blue-600 dark:text-blue-400",
+      border: "border-blue-500/20 dark:border-blue-400/20",
+    },
+    emerald: {
+      bg: "bg-blue-500/10 dark:bg-blue-400/15",
+      text: "text-blue-600 dark:text-blue-400",
+      border: "border-blue-500/20 dark:border-blue-400/20",
+    },
+    mint: {
+      bg: "bg-blue-500/10 dark:bg-blue-400/15",
+      text: "text-blue-600 dark:text-blue-400",
+      border: "border-blue-500/20 dark:border-blue-400/20",
+    },
+    amber: {
+      bg: "bg-amber-500/10 dark:bg-amber-400/15",
+      text: "text-amber-600 dark:text-amber-400",
+      border: "border-amber-500/20 dark:border-amber-400/20",
+    },
+    rose: {
+      bg: "bg-rose-500/10 dark:bg-rose-400/15",
+      text: "text-rose-600 dark:text-rose-400",
+      border: "border-rose-500/20 dark:border-rose-400/20",
+    },
+    ink: {
+      bg: "bg-indigo-500/10 dark:bg-indigo-400/15",
+      text: "text-indigo-600 dark:text-indigo-400",
+      border: "border-indigo-500/20 dark:border-indigo-400/20",
+    },
+    neutral: {
+      bg: "bg-muted",
+      text: "text-muted-foreground",
+      border: "border-border",
+    },
   };
+
+  const selectedTone = accent || tone || "indigo";
+  const current = toneMap[selectedTone] || toneMap.indigo;
+
   return (
-    <section className="surface-card group relative overflow-hidden p-5">
-      <div className={`mb-7 flex h-10 w-10 items-center justify-center rounded-xl ${colors[accent]}`}>{icon}</div>
-      <p className="text-xs font-semibold uppercase tracking-[0.12em] text-[#7a847e]">{label}</p>
-      <p className="mt-2 font-display text-[1.85rem] font-semibold leading-none tracking-[-0.045em] text-[#17221f]">{value}</p>
-      <p className="mt-3 text-xs font-medium text-[#748078]">{detail}</p>
-    </section>
+    <div className="surface-card-interactive relative overflow-hidden p-5.5">
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-wider text-muted-foreground">
+            {effectiveTitle}
+          </p>
+          <p className="mt-2 font-display text-2.5xl sm:text-3xl font-black tracking-tight text-foreground">
+            {value}
+          </p>
+        </div>
+        {icon ? (
+          <div
+            className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl ${current.bg} ${current.text} ${current.border} border`}
+          >
+            {icon}
+          </div>
+        ) : null}
+      </div>
+      {effectiveNote ? (
+        <div className="mt-3.5 flex items-center gap-1.5 border-t border-border/60 pt-3 text-xs text-muted-foreground dark:border-white/[0.05]">
+          <span className="h-1.5 w-1.5 rounded-full bg-indigo-500/60 dark:bg-indigo-400/60" />
+          <span>{effectiveNote}</span>
+        </div>
+      ) : null}
+    </div>
   );
 }
 
-export function TablePagination({ page, pageCount, total, pageSize, onPageChange }: { page: number; pageCount: number; total: number; pageSize: number; onPageChange: (page: number) => void }) {
+export function StatusPill({
+  tone = "neutral",
+  children,
+}: {
+  tone?: "success" | "warning" | "danger" | "neutral" | "info";
+  children: ReactNode;
+}) {
+  const styles = {
+    success:
+      "bg-blue-500/10 text-blue-700 dark:bg-blue-400/15 dark:text-blue-300 border-blue-500/20 dark:border-blue-400/20",
+    warning:
+      "bg-amber-500/10 text-amber-700 dark:bg-amber-400/15 dark:text-amber-300 border-amber-500/20 dark:border-amber-400/20",
+    danger:
+      "bg-rose-500/10 text-rose-700 dark:bg-rose-400/15 dark:text-rose-300 border-rose-500/20 dark:border-rose-400/20",
+    info: "bg-indigo-500/10 text-indigo-700 dark:bg-indigo-400/15 dark:text-indigo-300 border-indigo-500/20 dark:border-indigo-400/20",
+    neutral: "bg-muted text-muted-foreground border-border",
+  };
+
+  const dots = {
+    success: "bg-blue-500 dark:bg-blue-400",
+    warning: "bg-amber-500 dark:bg-amber-400",
+    danger: "bg-rose-500 dark:bg-rose-400",
+    info: "bg-indigo-500 dark:bg-indigo-400",
+    neutral: "bg-muted-foreground/60",
+  };
+
+  return (
+    <span
+      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-semibold ${styles[tone]}`}
+    >
+      <span className={`h-1.5 w-1.5 rounded-full ${dots[tone]}`} />
+      <span>{children}</span>
+    </span>
+  );
+}
+
+export function TablePagination({
+  page,
+  pageCount,
+  total,
+  pageSize,
+  onPageChange,
+}: {
+  page: number;
+  pageCount: number;
+  total: number;
+  pageSize: number;
+  onPageChange: (page: number) => void;
+}) {
   const start = total === 0 ? 0 : (page - 1) * pageSize + 1;
   const end = Math.min(page * pageSize, total);
   return (
-    <div className="flex flex-col gap-3 border-t border-[#edf0eb] px-5 py-4 text-sm text-[#77817b] sm:flex-row sm:items-center sm:justify-between">
-      <span>Showing <strong className="font-semibold text-[#3d4a43]">{start}–{end}</strong> of <strong className="font-semibold text-[#3d4a43]">{total}</strong></span>
+    <div className="flex flex-col gap-3 border-t border-border/80 px-5 py-4 text-xs font-medium text-muted-foreground sm:flex-row sm:items-center sm:justify-between dark:border-white/[0.06]">
+      <span>
+        Showing <strong className="font-bold text-foreground">{start}–{end}</strong> of{" "}
+        <strong className="font-bold text-foreground">{total}</strong> records
+      </span>
       <div className="flex items-center gap-2">
-        <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-[#dde4dd] bg-white" disabled={page <= 1} onClick={() => onPageChange(page - 1)} aria-label="Previous page"><ChevronLeft className="h-4 w-4" /></Button>
-        <span className="min-w-20 text-center text-xs font-semibold text-[#526057]">Page {page} / {pageCount}</span>
-        <Button size="icon" variant="outline" className="h-8 w-8 rounded-lg border-[#dde4dd] bg-white" disabled={page >= pageCount} onClick={() => onPageChange(page + 1)} aria-label="Next page"><ChevronRight className="h-4 w-4" /></Button>
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-8.5 w-8.5 rounded-xl border-border bg-card shadow-xs hover:bg-muted"
+          disabled={page <= 1}
+          onClick={() => onPageChange(page - 1)}
+          aria-label="Previous page"
+        >
+          <ChevronLeft className="h-4 w-4" />
+        </Button>
+        <span className="min-w-20 text-center text-xs font-bold text-foreground">
+          Page {page} of {pageCount || 1}
+        </span>
+        <Button
+          size="icon"
+          variant="outline"
+          className="h-8.5 w-8.5 rounded-xl border-border bg-card shadow-xs hover:bg-muted"
+          disabled={page >= pageCount}
+          onClick={() => onPageChange(page + 1)}
+          aria-label="Next page"
+        >
+          <ChevronRight className="h-4 w-4" />
+        </Button>
       </div>
     </div>
   );
 }
 
-export function EmptyTable({ title, description }: { title: string; description: string }) {
-  return <div className="flex min-h-60 flex-col items-center justify-center px-6 text-center"><div className="mb-3 flex h-11 w-11 items-center justify-center rounded-2xl bg-[#edf3ef] text-[#4b7f67]"><Inbox className="h-5 w-5" /></div><p className="font-semibold text-[#34433b]">{title}</p><p className="mt-1 max-w-sm text-sm text-[#79837c]">{description}</p></div>;
-}
-
-export function StatusPill({ tone, children }: { tone: "success" | "warning" | "danger" | "neutral"; children: ReactNode }) {
-  const toneClasses = { success: "bg-[#e7f5ec] text-[#23724f]", warning: "bg-[#fff3dc] text-[#9f5c0d]", danger: "bg-[#fdeae8] text-[#a34238]", neutral: "bg-[#edf0ee] text-[#526158]" };
-  return <span className={`inline-flex items-center rounded-full px-2.5 py-1 text-[11px] font-bold tracking-wide ${toneClasses[tone]}`}>{children}</span>;
+export function EmptyTable({
+  title,
+  description,
+  action,
+}: {
+  title: string;
+  description: string;
+  action?: ReactNode;
+}) {
+  return (
+    <div className="flex min-h-64 flex-col items-center justify-center p-8 text-center">
+      <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-500/10 text-indigo-600 dark:bg-indigo-400/15 dark:text-indigo-400">
+        <Inbox className="h-6 w-6" />
+      </div>
+      <h3 className="mt-4 font-display text-base font-bold text-foreground">{title}</h3>
+      <p className="mt-1 max-w-sm text-xs leading-relaxed text-muted-foreground">{description}</p>
+      {action ? <div className="mt-4">{action}</div> : null}
+    </div>
+  );
 }
